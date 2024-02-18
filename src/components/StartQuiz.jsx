@@ -13,9 +13,8 @@ export default function StartQuiz(props) {
 
     return (
         <form className='form-body'>
-
+            
             <label > Quizee </label>
-
             <input type="text"
                 className='input'
                 placeholder="Enter your name"
@@ -25,7 +24,7 @@ export default function StartQuiz(props) {
             <Button text='Start Quiz' 
             onClick={() => onStartQuiz()}
             disabled = {inputValue == "" ? true : false} />
-            
+
         </form>
     )
 }

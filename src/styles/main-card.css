@@ -42,6 +42,10 @@
     
 }
 
+.footer Timer{
+    margin-right: 40px;
+}
+
 .btn {
     display: inline-block;
     background: lightcoral;
@@ -141,4 +145,17 @@
     font-size: xx-large;
     font-weight: 800;
 
+}
+
+.score-container{
+    color: #010101;
+    text-align: center;
+    height: 40vh; 
+    padding: 2%;
+    font-size: 1.5em;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    border-radius: 15px;   
 }

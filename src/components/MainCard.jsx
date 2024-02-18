@@ -5,6 +5,8 @@ import Footer from "./Footer";
 import Questions from "./Questions";
 import StartQuiz from "./StartQuiz";
 import { useState, useEffect } from 'react';
+import ScoreCard from "./ScoreCard";
+
 // import questions from "./data";
 
 
@@ -12,10 +14,10 @@ export default function MainCard() {
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [data, setData] = useState([]);
-    const [start, setStart] = useState(false);
+    const [start, setStart] = useState(true);
     const [player, setPlayer] = useState("");
     const [score, setScore] = useState(0);
-
+    const [showScore, setShowScore] = useState(false);
 
 
     useEffect(() => {
@@ -23,7 +25,7 @@ export default function MainCard() {
             const datafromserver = await fetchData()
             setData(datafromserver)
         }
-        console.log(data, data.length)
+        console.log(data)
         getData();
     }, [])
 
@@ -35,7 +37,7 @@ export default function MainCard() {
         return data;
     }
 
-
+    
     return (
         <React.Fragment>
             <div className="container">
@@ -43,41 +45,71 @@ export default function MainCard() {
                     {/* {console.log(start, player)} */}
                     {/* HEADER */}
                     <header>
-                      {start == true ? 
+                        {start == true && showScore == false ?
                             (<h1> QUIZZZZ </h1>)
-                            : (
-        
-                                <h1> Question {currentQuestion + 1} </h1>
-                        )} 
+                            : start == false && showScore == false ?
+                                (<h1> Question {currentQuestion + 1} </h1>)
+                                : (<h1> FINAL SCORE </h1>)
+                        }
                     </header>
 
                     {/* BODY */}
 
-                     {start == true ? (
+                    {start == true && showScore == false ? (
                         <div className="start-container">
 
                             <StartQuiz setStart={setStart} setPlayer={setPlayer} />
 
                         </div>
-                    ) :
-                        ( 
+                    ) : start == false && showScore == false ?
+                        (
                             <div className="question-container">
 
                                 {data.length > 0 ? (
-                                    <Questions data={data[currentQuestion]} />
+                                    <Questions data={data[currentQuestion]}
+                                        setData = {setData}
+                                        jsondata = {data}
+                                        setCurrentQuestion={setCurrentQuestion}
+                                        currentQuestion={currentQuestion}
+                                        setScore={setScore}
+                                        score={score}
+                                        setShowScore={setShowScore}
+                                       
+                                    />
                                 ) : (
                                     <p>No Questions to show</p>
                                 )}
                             </div>
-                           )}
+                        )
+                        : (
+                        <div className="score-container">
+                            <ScoreCard 
+                            player={player}
+                            score={score}
+                            setShowScore={setShowScore}
+                            setStart={setStart}
+                            setScore = {setScore}
+                            setCurrentQuestion = {setCurrentQuestion}
+                             />
+                        </div>
+                        )
+
+                    }
 
                     {/* FOOTER */}
-            {start == true ?
-                        (<> </>) : ( 
-                            <Footer setCurrentQuestion={setCurrentQuestion} currentQuestion={currentQuestion} />
-                        )}
+                    {start == false && showScore == false?
+                        (
+                            <Footer 
+                            setCurrentQuestion={setCurrentQuestion} 
+                            currentQuestion={currentQuestion}
+                            setShowScore={setShowScore} 
+                            // setData = {setData}
+                            />
+                        )
+                       : (<> </>) 
+                    }
 
-                    
+
                 </div>
             </div>
 
